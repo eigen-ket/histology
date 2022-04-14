@@ -1,0 +1,1199 @@
+\documentclass[10pt]{amsart}
+\usepackage{lmodern}
+
+\makeatletter
+\ifcase \@ptsize \relax% 10pt
+  \newcommand{\miniscule}{\@setfontsize\miniscule{4}{5}}% \tiny: 5/6
+\or% 11pt
+  \newcommand{\miniscule}{\@setfontsize\miniscule{5}{6}}% \tiny: 6/7
+\or% 12pt
+  \newcommand{\miniscule}{\@setfontsize\miniscule{5}{6}}% \tiny: 6/7
+\fi
+\makeatother
+
+\usepackage{changepage}
+%     If your article includes graphics, uncomment this command.
+\usepackage{colortbl}
+%\usepackage{graphicx}
+\usepackage{leftidx}
+\usepackage{mathtools}
+\usepackage{graphicx}
+
+\usepackage{expl3}
+\ExplSyntaxOn
+\cs_new_eq:NN \fpeval \fp_eval:n
+\cs_new_eq:NN \clistitem \clist_item:Nn
+\cs_new_eq:NN \foreachint \int_step_inline:nnnn
+\ExplSyntaxOff
+
+\usepackage{pgf}
+\usepackage{pgf-spectra}
+%\usepackage{fp}
+%\usetikzlibrary{fpu}
+%\usetikzlibrary{fpu}
+
+%\pgfkeys{/pgf/fpu=true}
+
+\newcommand{\eq}{=}
+\newcommand{\setvalue}[1]{\pgfkeys{/variables/#1}}
+\newcommand{\getvalue}[1]{\pgfkeysvalueof{/variables/#1}}
+\newcommand{\declare}[1]{%
+ \pgfkeys{
+  /variables/#1.is family,
+  /variables/#1.unknown/.style = {\pgfkeyscurrentpath/\pgfkeyscurrentname/.initial = ##1}
+ }%
+}
+\pgfkeys{/pgf/number format/.cd ,precision=12,sci generic={exponent={\times 10^{#1}}}}
+%\pgfset{fpu=true}
+
+
+\usepackage{gnuplottex}
+\usepackage{siunitx}
+%\usepackage{subcaption}
+%\usepackage{subfigure}
+\usepackage{float}
+\newcommand{\sinc}{\operatorname{sinc}}
+\newcommand{\rect}{\operatorname{rect}}
+\newcommand{\wll}{\textcolor{white}{123}}
+\newcommand{\tot}{\text{tot}}
+\newcommand{\ptl}{\text{ptl}}
+\newcommand{\ove}{\operatorname{vec}}
+\newcommand{\apr}{\text{apparatus}}
+\newcommand{\dtr}{\text{dtr}}
+\newcommand{\initial}{\text{initial}}
+\newcommand{\final}{\text{final}}
+\newcommand{\BS}{\operatorname{BS}}
+\newcommand{\path}{\text{path}}
+\newcommand{\up}{\uparrow}
+\newcommand{\down}{\downarrow}
+%\usepackage[dvipsnames]{xcolor}
+
+%\usepackage[x11names]{xcolor}
+\newtagform{blue}{\color{blue}(}{)}
+%\usepackage[dvipsnames]{xcolor}
+
+%\usepackage{pgfplots} 
+ %   \usetikzlibrary{intersections}
+    % use this `compat' level or higher so that TikZ coordinates don't have to be prefixed
+    % with `axis cs:'
+  %  \pgfplotsset{width=15cm,compat=1.11}
+\usepackage{amsthm}
+\usepackage{amsmath,amssymb}
+\usepackage{helvet}
+%\usepackage[leqno]{amsmath}
+%\usepackage{blindtext}
+\usepackage{bbm}
+
+\makeatletter
+\newcommand{\newparallel}{\mathrel{\mathpalette\new@parallel\relax}}
+\newcommand{\new@parallel}[2]{%
+  \begingroup
+  \sbox\z@{$#1T$}% get the height of an uppercase letter
+  \resizebox{!}{\ht\z@}{\raisebox{\depth}{$\m@th#1/\mkern-5mu/$}}%
+  \endgroup
+}
+\makeatother
+
+
+
+\DeclareSymbolFont{extraup}{U}{zavm}{m}{n}
+\DeclareMathSymbol{\varheart}{\mathalpha}{extraup}{86}
+\DeclareMathSymbol{\vardiamond}{\mathalpha}{extraup}{87}
+\newcommand{\redheart}{\textcolor{red}{$\varheart$}}
+\newcommand{\heart}{\ensuremath\varheart}
+
+%\definecolor{orange}{rgb}{1.0, 0.7, 0}
+\definecolor{awesome}{rgb}{1.0, 0.13, 0.32}
+\definecolor{}{rgb}{0.0, 0.0, 0.60}
+\makeatletter\newcommand{\leqnomode}{\tagsleft@true\let\veqno\@@leqno}
+\newcommand{\reqnomode}{\tagsleft@false\let\veqno\@@eqno}\makeatother
+
+\makeatletter
+\newcommand{\pushright}[1]{\ifmeasuring@#1\else\omit\hfill$\displaystyle#1$\fi\ignorespaces}
+\newcommand{\pushleft}[1]{\ifmeasuring@#1\else\omit$\displaystyle#1$\hfill\fi\ignorespaces}
+\makeatother
+
+\makeatletter
+\newcommand{\specialcell}[1]{\ifmeasuring@#1\else\omit$\displaystyle#1$\ignorespaces\fi}
+\makeatother
+
+%\newcommand{\subsec}[1]{\begin{adjustwidth}{-0.1in}{0in}\Large\textbf{\textcolor{darkblue}{#1}}\end{adjustwidth}\normalsize \vspace{1ex}}
+
+\newcommand{\linebreakc}{\textcolor{white}{bl}\\}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+% use KoTeX package for Korean 
+\usepackage{kotex}
+% for the fancy \koTeX logo
+\usepackage{kotex-logo}
+
+
+\newcommand{\expp}[1]{\exp\left(#1\right)}
+\newcommand{\expb}[1]{\exp\left[#1\right]}
+\newcommand{\sinb}[1]{\sin\left[#1\right]}
+\newcommand{\cosb}[1]{\cos\left[#1\right]}
+\newcommand{\sinp}[1]{\sin\left(#1\right)}
+\newcommand{\cosp}[1]{\cos\left(#1\right)}
+
+\newcommand{\logb}[1]{\log\left[#1\right]}
+\newcommand{\lnb}[1]{\ln\left[#1\right]}
+\newcommand{\logp}[1]{\log\left(#1\right)}
+\newcommand{\lnp}[1]{\ln\left(#1\right)}
+
+
+\usepackage{hyperref}
+\usepackage[nameinlink,capitalize]{cleveref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+    pdftitle={Gyunghee Han Exp Report KAIST},
+    bookmarks=true,
+    pdfpagemode=FullScreen,
+    }
+\let\oldref\ref
+\renewcommand{\ref}[1]{(\oldref{#1})} 
+\def\equationautorefname~#1\null{(#1)\null}
+\newcommand{\tagg}[1]{\stepcounter{equation}\tag{\theequation}\label{#1} }
+\urlstyle{same}
+\newcommand{\taggg}[1]{\tag{#1}\label{#1} }
+%\usepackage{subfig}
+
+
+%\numberwithin{equation}{section}
+
+%\numberwithin{example}{section}
+%\usepackage{subfig}
+
+%\numberwithin{subfigure}{figure}
+
+%\captionsetup[subfigure]{subrefformat=simple,labelformat=simple,listofformat=subsimple}
+%\renewcommand\thesubfigure{(\alph{subfigure})}
+
+
+\newtheorem{theorem}{Theorem}
+\newtheorem*{theorem*}{Theorem}
+\numberwithin{theorem}{section}
+
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+
+\newtheorem{exercise}{Exercise}
+\newtheorem*{exercise*}{Exercise}
+\crefname{exercise}{Exercise}{exercises}
+
+\newtheorem{example}{Example}
+\newtheorem*{example*}{Example}
+\numberwithin{example}{section}
+%\newtheorem{lemma}[lemma]{Lemma}
+%\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+%\newtheorem{exercise}[theorem]{Exercise}
+
+
+
+
+
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem*{remark*}{Remark}
+\newtheorem{problem}{Problem}
+\newtheorem*{problem*}{Problem}
+
+\newtheorem{innercustompro}{Problem}
+\newenvironment{prob}[1]
+  {\renewcommand\theinnercustompro{#1}\innercustompro}
+  {\endinnercustompro}
+
+
+
+
+\newtheorem{innercustomlem}{Lemma}
+\newenvironment{lem}[1]
+  {\renewcommand\theinnercustomlem{#1}\innercustomlem}
+  {\endinnercustomlem}
+  
+\newtheorem{innercustomthm}{Theorem}
+\newenvironment{thm}[1]
+  {\renewcommand\theinnercustomthm{#1}\innercustomthm}
+  {\endinnercustomthm}
+
+
+\newenvironment{prf}
+  {\begin{proof}[\textbf{\textcolor{magenta}{Proof}}\\]}
+  {\end{proof}}
+\makeatletter
+  \renewcommand\@upn{\textit}
+\makeatother
+
+
+
+\newenvironment{solution}
+  {\begin{proof}[\textbf{\textcolor{blue}{Solution}}\\]}
+  {\end{proof}}
+\makeatletter
+  \renewcommand\@upn{\textit}
+\makeatother
+
+\newcommand{\lf}{\left}
+\newcommand{\rg}{\right}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem*{definition*}{Definition}
+
+\newtheorem{innercustomdefi}{Definition}
+\newenvironment{defi}[1]
+  {\renewcommand\theinnercustomdefi{#1}\innercustomdefi}
+  {\endinnercustomdefi}
+
+%\newtheorem{example}{Example}
+
+%\newtheorem{xca}[theorem]{Exercise}
+
+\newtheorem{innercustomex}{Example}
+\newenvironment{ex}[1]
+  {\renewcommand\theinnercustomex{#1}\innercustomex}
+  {\endinnercustomex}
+
+\theoremstyle{remark}
+
+
+%\newenvironment{proposition}[2][Proposition]{\begin{trivlist}
+%\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+
+
+\newcommand{\abs}[1]{\left\lvert#1\right\rvert}
+
+\definecolor{hotpink}{rgb}{1.0, 0, 0.6}
+\definecolor{inter}{rgb}{0.4, 0.4, 1}
+\definecolor{awesome}{rgb}{1.0, 0.13, 0.32}
+\definecolor{darkblue}{rgb}{0.0, 0.0, 0.60}
+\definecolor{darkgreen}{rgb}{0.0, 0.50, 0.0}
+\definecolor{darkyellow}{rgb}{0.80, 0.80, 0.0}
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+\newcommand{\rred}[1]{\textcolor{RubineRed}{#1}}
+\newcommand{\dblue}[1]{\textcolor{darkblue}{#1}}
+\newcommand{\dgreen}[1]{\textcolor{darkgreen}{#1}}
+\newcommand{\blue}[1]{\textcolor{blue}{#1}}
+\newcommand{\cyan}[1]{\textcolor{cyan}{#1}}
+\newcommand{\magenta}[1]{\textcolor{magenta}{#1}}
+\newcommand{\brown}[1]{\textcolor{brown}{#1}}
+\newcommand{\dyellow}[1]{\textcolor{darkyellow}{#1}}
+\newcommand{\am}[1]{\textcolor{Aquamarine}{#1}}
+
+\newcommand{\purple}[1]{\textcolor{purple}{#1}}
+
+\newcommand{\green}[1]{\textcolor{green}{#1}}
+\newcommand{\orange}[1]{\textcolor{orange}{#1}}
+
+\newcommand{\ot}{\otimes}
+\newcommand{\rh}{\rho}
+\newcommand{\tht}{\theta}
+\usepackage{answers}
+\usepackage{setspace}
+\usepackage{graphicx}
+\usepackage{enumerate}
+\usepackage{multicol}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage[margin=1in]{geometry} 
+
+\usepackage{braket}
+\usepackage{CJKutf8}
+\newcommand{\ob}[1]{\mkern 1.5mu\overline{\mkern-1.5mu#1\mkern-1.5mu}\mkern 1.5mu}
+ 
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\iZ}{\mathbb{Z}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\X}{\mathcal{X}}
+\newcommand{\Y}{\mathcal{Y}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\W}{\mathcal{W}}
+
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\xra}[1]{\xrightarrow{#1}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\V}{\operatorname{Var}} 
+\newcommand {\tr} {\operatorname{Tr}}
+\newcommand{\trp}[1]{\tr\left(#1\right)}
+\newcommand{\trpp}[2]{\tr_{#1}\left(#2\right)}
+\newcommand{\trb}[1]{\tr\left[#1\right]}
+
+\newcommand*{\myfont}{\fontfamily{lmss}\selectfont}
+\DeclareTextFontCommand{\fo}{\myfont}
+
+%\usepackage{titlesec}
+
+\makeatletter
+%default definition of article.cls
+%using \renewcommand instead of \newcommand
+\renewcommand\part{%
+   \if@noskipsec \leavevmode \fi
+   \par
+   \addvspace{4ex}%
+   \@afterindentfalse
+   \secdef\@part\@spart}
+
+\def\@part[#1]#2{%
+    \ifnum \c@secnumdepth >\m@ne
+      \refstepcounter{part}%
+      \addcontentsline{toc}{part}{\thepart\hspace{1em}#1}%
+    \else
+      \addcontentsline{toc}{part}{#1}%
+    \fi
+    {\parindent \z@ \raggedright
+     \interlinepenalty \@M
+     \normalfont
+     \ifnum \c@secnumdepth >\m@ne
+       \Large\bfseries \partname\nobreakspace\thepart
+       \par\nobreak
+     \fi
+     \huge \bfseries #2%
+     %%%\markboth{}{}\par}% removing redefinition of headings
+     \par}%
+    \nobreak
+    \vskip 3ex
+    \@afterheading}
+\def\@spart#1{%
+    {\parindent \z@ \raggedright
+     \interlinepenalty \@M
+     \normalfont
+     \huge \bfseries #1\par}%
+     \nobreak
+     \vskip 3ex
+     \@afterheading}
+\makeatother
+
+%\renewcommand{\partname}{Chapter}
+%\newcommand{\part}{\part}
+%\begin{comment}
+%\titleformat{\part}
+ % {\normalfont\myfont\huge\bfseries}
+  %{\parttitlename\ \thepart}{20pt}{\huge}
+%\end{comment}
+  
+  
+\usepackage{etoolbox}
+\patchcmd{\section}{\scshape}{\bfseries}{}{}
+\makeatletter
+\renewcommand{\@secnumfont}{\bfseries}
+\makeatother  
+  
+%\renewcommand{\thesection}{\arabic{section}}  
+
+
+
+\makeatletter
+\def\@seccntformat#1{%
+  \expandafter\ifx\csname c@#1\endcsname\c@section
+  \thesection\hspace{2ex}
+  \else
+  \csname the#1\endcsname\quad
+  \fi}
+\makeatother
+
+  
+\makeatletter  
+\renewcommand\partname{Chapter}
+\renewcommand\part{\@startsection{part}{0}%
+\z@{\linespacing\@plus\linespacing}{1\linespacing}%
+{\myfont\bfseries\huge\raggedright}}  
+\makeatother  
+  
+  
+
+% http://joshua.smcvt.edu/latex2e/bs-at-startsection.html  
+  
+\makeatletter
+\renewcommand\section{\@startsection{section}{1}%
+{0pt}{.8\linespacing\@plus\linespacing}{.6\linespacing}%
+{\LARGE\bfseries\color{black}}}
+\makeatother
+
+\makeatletter
+\renewcommand\specialsection{\@startsection{specialsection}{1}%
+{0pt}{.8\linespacing\@plus\linespacing}{.6\linespacing}%
+{\LARGE\bfseries\color{hotpink}}}
+\makeatother
+
+\makeatletter
+\renewcommand\subsection{\@startsection{subsection}{2}%
+{0pt}{.8\linespacing\@plus.9\linespacing}{.7\linespacing}%
+{\Large\bfseries\color{black}}}
+\makeatother
+
+\makeatletter
+\renewcommand\subsubsection{\@startsection{subsubsection}{3}%
+\z@{.6\linespacing\@plus.7\linespacing}{.4\linespacing}%
+{\large\bfseries\color{black}}}
+\makeatother
+
+%https://tex.stackexchange.com/questions/268706/amsart-change-subsection-headings-from-boldface-to-smallcaps
+%https://tex.stackexchange.com/questions/60437/newlines-after-section-headings-in-amsart
+%http://ftp.ktug.org/tex-archive/macros/latex/required/amscls/doc/amsclass.pdf 의 Line 1175
+
+\newcommand{\subsec}[1]{\begin{adjustwidth}{-0.1in}{0in}\subsection{#1}\end{adjustwidth}}
+\newcommand{\subsect}[1]{\hspace{-0.2in}\subsection{#1}}
+\newcommand{\secc}[1]{\begin{adjustwidth}{-0.1in}{0in}\section{#1}\end{adjustwidth}}
+
+\usepackage{array}
+\preto\tabular{\setcounter{magicrownumbers}{0}}
+\newcounter{magicrownumbers}
+\newcommand\rownumber{\small\stepcounter{magicrownumbers}\arabic{magicrownumbers}}
+
+
+\newcommand{\vb}{\vec{B}}
+\newcommand{\vj}{\vec{j}}
+\newcommand{\vn}{\vec{\nabla}}
+\newcommand{\vr}{\mathbf{r}}
+\newcommand{\vk}{\mathbf{k}}
+\newcommand{\va}{\vec{A}}
+\newcommand{\vl}{\vect{l}}
+\newcommand{\vp}{\varphi}\newcommand{\hvp}{\hat{\varphi}}
+\setcounter{section}{+0}
+
+\newcommand{\hq}{\hat{Q}}
+\newcommand{\hp}{\hat{\Phi}}
+
+\newcommand{\ha}{\hat{a}}
+\newcommand{\hN}{\hat{N}}
+\newcommand{\ld}{\lambda}
+\newcommand{\htp}{\hat{p}}
+
+\newcommand{\om}{\omega}
+\newcommand{\var}{\operatorname{Var}}
+\newcommand{\vect}{\mathbf}
+\newcommand{\nul}{\operatorname{Nul}}
+\newcommand{\col}{\operatorname{Col}}
+\newcommand{\row}{\operatorname{Row}}
+\newcommand{\dg}{\dagger}
+%    Blank box placeholder for figures (to avoid requiring any
+%    particular graphics capabilities for printing this document).
+\newcommand{\blankbox}[2]{%
+  \parbox{\columnwidth}{\centering
+%    Set fboxsep to 0 so that the actual size of the box will match the
+%    given measurements more closely.
+    \setlength{\fboxsep}{0pt}%
+    \fbox{\raisebox{0pt}[#2]{\hspace{#1}}}%
+  }%
+}
+
+
+
+\usepackage{bbm}
+%     If your article inludes graphics, uncomment this command
+\usepackage{svg}
+\usepackage[super, square]{natbib}
+%\usepackage[square]{natbib}
+
+%\usepackage{biblatex}
+%\bibliography{name.bib}
+\svgsetup{inkscapelatex=false}
+\usepackage{epstopdf}
+\usepackage{url}
+%\usepackage{circuitikz}
+
+\usepackage{pgf}
+\usepackage{graphicx}
+\usepackage{pgfplots}
+
+\usepackage{gnuplottex}
+\usepackage{pgfplotstable}
+\usepgfplotslibrary{external} 
+\usetikzlibrary{external}
+%\tikzexternalize[prefix=tikz/]
+
+
+%\pgfplotsset{every axis/.append style={
+                    %axis x line=middle,    % put the x axis in the middle
+                    %axis y line=middle,    % put the y axis in the middle
+                    %axis line style={<->,color=blue}, % arrows on the axis
+                    %xlabel={$x$},          % default put x on x-axis
+                    %ylabel={$y$},          % default put y on y-axis
+            %}}
+\pgfplotsset{every tick label/.append style={font=\tiny}}
+\pgfplotsset{every x tick label/.append style={font=\tiny, yshift=0.5ex}}
+\pgfplotsset{every y tick label/.append style={font=\tiny, xshift=0.5ex}}
+\pgfplotsset{ /pgf/number format/precision=10}
+
+\begin{comment}
+
+\pgfplotsset{
+    node near coord/.style={ % Style for activating the label for a single coordinate
+        nodes near coords*={
+            \ifnum\coordindex=#1\pgfmathprintnumber{\pgfplotspointmeta}\fi
+        }
+    },
+    nodes near some coords/.style={ % Style for activating the label for a list of coordinates
+        scatter/@pre marker code/.code={},% Reset the default scatter style, so we don't get coloured markers
+        scatter/@post marker code/.code={},% 
+        node near coord/.list={#1} % Run "node near coord" once for every element in the list
+    }
+}
+
+\pgfplotsset{
+    node near coord/.style={ % Style for activating the label for a single coordinate
+        nodes near coords*={
+            \ifnum\coordindex=#1\pgfmathprintnumber{\pgfplotspointmeta}\fi
+        }
+    },
+    nodes near some coords/.style={ % Style for activating the label for a list of coordinates
+        scatter/@pre marker code/.code={},% Reset the default scatter style, so we don't get coloured markers
+        scatter/@post marker code/.code={},% 
+        node near coord/.list={#1} % Run "node near coord" once for every element in the list
+    }
+}
+
+\pgfplotsset{
+    node near coord/.style args={#1/#2/#3}{% Style for activating the label for a single coordinate
+        nodes near coords*={
+            \ifnum\coordindex=#1 #2\fi
+        },
+        scatter/@pre marker code/.append code={
+            \ifnum\coordindex=#1 \pgfplotsset{every node near coord/.append style=#3}\fi
+        }
+    },
+    nodes near some coords/.style={ % Style for activating the label for a list of coordinates
+        scatter/@pre marker code/.code={},% Reset the default scatter style, so we don't get coloured markers
+        scatter/@post marker code/.code={},% 
+        node near coord/.list={#1} % Run "node near coord" once for every element in the list
+    }
+
+}
+
+\pgfplotsset{
+    node near coord/.style args={#1/#2/#3}{% Style for activating the label for a single coordinate
+        nodes near coords*={
+            \ifnum\coordindex=#1  #2\fi
+        },
+        scatter/@pre marker code/.append code={
+            \ifnum\coordindex=#1 \pgfplotsset{every node near coord/.append style=#3}\fi
+        }
+    },
+    nodes near some coords/.style={ % Style for activating the label for a list of coordinates
+        scatter/@pre marker code/.code={},% Reset the default scatter style, so we don't get coloured markers
+        scatter/@post marker code/.code={},% 
+        node near coord/.list={#1} % Run "node near coord" once for every element in the list
+    }
+
+}
+
+\end{comment}
+
+
+
+
+
+\pgfplotsset{
+    node near coord/.style args={#1/#2/#3}{% Style for activating the label for a single coordinate
+        nodes near coords*={
+            \ifnum\coordindex=#1\pgfmathprintnumber{\pgfplotspointmeta}#2\fi
+        },
+        scatter/@pre marker code/.append code={
+            \ifnum\coordindex=#1 \pgfplotsset{every node near coord/.append style=#3}\fi
+        }
+    },
+    nodes near some coords/.style={ % Style for activating the label for a list of coordinates
+        scatter/@pre marker code/.code={},% Reset the default scatter style, so we don't get coloured markers
+        scatter/@post marker code/.code={},% 
+        node near coord/.list={#1} % Run "node near coord" once for every element in the list
+    }
+}
+
+
+\pgfplotsset{
+    pin near coord/.style args={#1/#2/#3}{% Style for activating the label for a single coordinate
+        scatter/@pre marker code/.append code={
+           \ifnum 1=#3
+            \ifnum\coordindex=#1  point meta=x, \node[pin={#2:\small\color{black} \SI{\small\pgfmathprintnumber{\pgfplotspointmeta}}{\volt}  }]{};\fi 
+            \fi 
+            \ifnum 2=#3
+            \ifnum\coordindex=#1 point meta=x, \node[pin={[align=center]75:#2}]{};\fi
+            \fi
+        }
+    },
+    pins near some coords/.style={ % Style for activating the label for a list of coordinates
+        scatter,
+        scatter/@pre marker code/.code={},% Reset the default scatter style, so we don't get coloured markers
+        scatter/@post marker code/.code={},% 
+        pin near coord/.list={#1} % Run "pin near coord" once for every element in the list
+    }
+}
+\pgfplotsset{select coords between index/.style 2 args={
+    x filter/.code={
+        \ifnum\coordindex<#1\def\pgfmathresult{}\fi
+        \ifnum\coordindex>#2\def\pgfmathresult{}\fi
+    }
+}}
+%\usetikzlibrary {math, fpu}
+%\pgfkeys{/pgf/fpu = true}
+\usepackage{csvsimple}
+\usepackage{ifpdf}
+\usepackage{sidecap}
+\usepackage{float}
+\usepackage[labelformat=simple]{subcaption}
+\renewcommand{\thesubfigure}{(\scshape\Alph{subfigure})}
+\captionsetup[subfigure]{position=top}
+\begin{comment}
+\usepackage[labelformat=simple]{subcaption}
+\renewcommand\thesubfigure{(\alph{subfigure})}
+(Note: Since parens is the default label format you will get double parentheses in sub-captions if you don't specify a different label format, e.g., simple.)
+\end{comment}
+%\renewcommand\thesubfigure{(\alph{subfigure})}
+\newcommand{\squeezeup}{\vspace{-5mm}}
+\newcommand{\squeezeupp}{\vspace{-8.5mm}}
+\newcommand{\squeezeuppp}{\vspace{-10mm}}
+%\usepackage{pgfplots}
+   % \usetikzlibrary{intersections}
+    % use this `compat' level or higher so that TikZ coordinates don't have to be prefixed
+    % with `axis cs:'
+   %\pgfplotsset{width=15cm,compat=1.11}
+
+\usepackage{siunitx}\sisetup{parse-numbers=false}
+\sisetup{parse-numbers=false}
+\DeclareSIUnit\torr{torr}
+\DeclareSIUnit\gauss{G}
+\usepackage{amsmath}
+\usepackage{amsthm,amssymb}
+
+\makeatletter
+\def\convertto#1#2{\strip@pt\dimexpr #2*65536/\number\dimexpr 1#1}
+\makeatother
+
+% \usepackage{mhchem}
+\usepackage{chemformula}
+\let\ce\ch
+\usepackage{longtable}
+\usepackage{multirow, makecell}
+\usepackage{multicol}
+\begin{comment}
+
+\makeatletter
+\renewenvironment{thebibliography}[1]
+     {\begin{multicols}{2}[\section*{\refname}]%
+      \@mkboth{\MakeUppercase\refname}{\MakeUppercase\refname}%
+      \list{\@biblabel{\@arabic\c@enumiv}}%
+           {\settowidth\labelwidth{\@biblabel{#1}}%
+            \leftmargin\labelwidth
+            \advance\leftmargin\labelsep
+            \@openbib@code
+            \usecounter{enumiv}%
+            \let\p@enumiv\@empty
+            \renewcommand\theenumiv{\@arabic\c@enumiv}}%
+      \sloppy
+      \clubpenalty4000
+      \@clubpenalty \clubpenalty
+      \widowpenalty4000%
+      \sfcode`\.\@m}
+     {\def\@noitemerr
+       {\@latex@warning{Empty `thebibliography' environment}}%
+      \endlist\end{multicols}}
+\makeatother
+%\url{tex.stackexchange.com/questions/20758/bibliography-in-two-columns-section-title-in-one/20761}
+\end{comment}
+%\renewcommand{\bibpreamble}{\begin{multicols}{2}}
+%\renewcommand{\bibpostamble}{\end{multicols}}
+\usepackage{helvet}
+
+\usepackage{blindtext}
+\usepackage{mathtools}
+%\usepackage[x11names]{xcolor}
+%\newtagform{blue}{\color{blue}(}{)}
+%\usepackage[dvipsnames]{xcolor}
+
+\definecolor{awesome}{rgb}{1.0, 0.13, 0.32}
+\definecolor{darkblue}{rgb}{0.0, 0.0, 0.60} 
+
+
+\newcommand{\re}{\operatorname{Re}}
+\newcommand{\im}{\operatorname{Im}}
+
+%\newcommand{\redheart}{\textcolor{red}{$\varheartsuit$}}
+%\newcommand{\heart}{\ensuremath\varheartsuit}
+
+
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+% use KoTeX package for Korean 
+\usepackage{kotex}
+
+
+
+
+
+
+%\numberwithin{equation}{section}
+
+\usepackage{answers}
+\usepackage{setspace}
+
+\usepackage{enumerate}
+\usepackage{enumitem}
+\usepackage{multicol}
+\usepackage{mathrsfs}
+\usepackage[margin=1in]{geometry} 
+\usepackage{changepage}
+\usepackage{braket}
+\usepackage{CJKutf8}
+
+
+\DeclareTextFontCommand{\fo}{\myfont}
+
+\newcommand*{\helve}{\fontfamily{phv}\selectfont}
+\DeclareTextFontCommand{\fohe}{\helve}
+
+\makeatletter
+\newcommand*{\rom}[1]{\expandafter\@slowromancap\romannumeral #1@}
+\makeatother
+
+
+\begin{comment}
+\newcommand{\vb}{\vec{B}}
+\newcommand{\vj}{\vec{j}}
+\newcommand{\vn}{\vec{\nabla}}
+\newcommand{\vr}{\mathbf{r}}
+\newcommand{\vk}{\mathbf{k}}
+\newcommand{\va}{\vec{A}}
+\newcommand{\vl}{\vect{l}}
+\newcommand{\vp}{\varphi}\newcommand{\hvp}{\hat{\varphi}}
+\setcounter{section}{+11}
+
+\newcommand{\hq}{\hat{Q}}
+\newcommand{\hp}{\hat{\Phi}}
+
+\newcommand{\ha}{\hat{a}}
+\newcommand{\hN}{\hat{N}}
+\newcommand{\ld}{\lambda}
+\newcommand{\htp}{\hat{p}}
+%\usepackage[T1]{fontenc}
+%\usepackage{bold-extra}
+\newcommand{\var}{\operatorname{Var}}
+\newcommand{\vect}{\mathbf}
+\newcommand{\nul}{\operatorname{Nul}}
+\newcommand{\col}{\operatorname{Col}}
+\newcommand{\row}{\operatorname{Row}}
+\newcommand{\dg}{\dagger}
+\end{comment}
+\usepackage{fancyhdr}
+\usepackage{regexpatch}
+
+\begin{comment}
+%%% let's patch the amsart macros
+\makeatletter
+\renewcommand{\sectionmark}[2]{%
+  \ifnum#1<\@m
+    \markboth{\thesection. #2}{\thesection. #2}%
+  \else
+    \markboth{#2}{#2}%
+  \fi}
+\xpatchcmd*{\@sect}
+  {\@tocwrite}
+  {\csname #1mark\endcsname{#2}{#7}\@tocwrite}
+  {}{}
+\makeatother
+\end{comment}
+
+\pagestyle{fancy}
+\fancyhf{}
+%\rhead{}
+\lhead{Exp. No. 11,  Gyunghee Han, KAIST}
+%\fancyhead[L]{\rightmark}
+\fancyhead[R]{\textcolor{black}{\thepage}}
+
+%\renewcommand{\subsectionmark}[1]{%
+%  \markright{\MakeUppercase{\thesubsection.\ #1}}}%
+
+%\renewcommand{\sectionmark}[1]{%
+%\markboth{\thesection\quad #1}{}}
+%\fancyhead{}
+%\fancyfoot[L]{\leftmark}
+%\fancyfoot{}
+%\fancyfoot[CE,CO]{\leftmark}
+\cfoot{\thepage}
+\newlength\FHoffset
+\setlength\FHoffset{0.12in}
+
+\addtolength\headwidth{2\FHoffset}
+
+\fancyheadoffset{\FHoffset}
+
+\usepackage{layouts}
+\begin{document}
+%\pgfset{fpu = true}
+\usetagform{blue} \reqnomode
+\newgeometry{left=0.9in, right=0.9in, top=1in, bottom=1in}
+%\newgeometry{left=0.7in, right=0.7in, top=1in, bottom=1in}
+\fancypagestyle{plain}{
+  \fancyhf{}
+  \lhead{Exp. No. 11, PH351,  Gyunghee Han, KAIST}
+  \chead{}
+  \rhead{\textcolor{black}{\thepage}}
+}
+
+\begin{center}
+\linebreakc
+\linebreakc
+\linebreakc
+\huge
+%\textbf{\fo{ EXP 1.}}
+
+Franck-Hertz Experiment
+with Neon
+
+
+\textcolor{white}{bl}\\
+
+\Large
+Gyunghee Han
+
+\end{center}
+
+\textcolor{white}{bl}\\
+
+\normalsize
+
+\section{Basal Lamina - 04131교시}
+세포사이사이 색깔 진한거 : basal lamina 
+
+비연속적인 BL존대 
+
+BL은 epithelial cell에만 존재한다 .(X)
+
+근육도 BL이 둘러쌈 
+
+external lamina가 뭐지????
+
+epithelial cell이 BL에 부착하는 방식 
+
+lamina densa 밑에거 : reticular lamina 
+
+collagen에 의해 reticular fiber와 연결되어있음
+
+\section{basal infolding 기저 주름 }
+
+굉장히 흡수가 활발핮 조직 : 윗부분 (융모?)뿐만 아니라 바닥에서도 주름이 관찰됨 (기저 주름) 
+
+ex) renal cell 
+
+주름 사이사이에 mitochondria가 서있음 
+
+맨오른쪽사진에서 선 보이는 것 : mitochondria가 서있는 것 
+
+cytoplasm이 --philic하게 나타난다 왜 그래요??
+
+basal striation : LM 광현미경 상 
+
+
+mitochondira가 많다는 뜻 : cell membrane을 통한 물질 수송에 에너지가 많이 든다. 
+
+table 5.4 junctional features 확인하기 
+
+
+\section{Glands}
+
+
+endocrinei gland : ductless gland : 혈관으로 분비 
+
+epithelium에서 기원 
+
+
+goblet cell : 하얗게 나타남 : 표본 제작시 보존 위해 유기용매로 washing해서 맨 왼쪽 그림에서 하얀색 
+
+\subsection{classification}
+
+# of duct - simple / compund
+
+# shape of secretary portion - alveolar 포상/ tubular 관상 / tubuloalveolar 관포상
+
+
+- simple tubular : 장샘 (창자샘)
+
+- simple coiled tubular : 땀샘 sweat gland 
+
+- sweat gland의 duct는 stratified
+
+- simple branched tubular : 위샘 glands of stomach and uterus
+
+- 0simple alveolar : 기름샘
+
+- compound branced tubular : oral cavity
+
+- branched branched alveolar : 
+
+- compund branched tubuloalveolar : 
+
+왼 : compound alveolar
+
+오 : mammary gland : lumen이 굊장히 큼 
+
+시험문제 안냄 외울필요 X
+
+
+acinus --> lobule --> lobe 
+
+lobule여러개가 모여 lobe
+
+lobule안에 여러개의 acinus가 있음 
+
+5 pseudo stratified
+
+6 stratified
+
+acinus : 분비세포가 5-7개 모여 만든 것 
+
+intercalated duct : duct 시작점 
+
+striated duct : 좀더 커진 duct 
+
+striated duct가 반드시 있는 것은 아님. 침샘에서 발달 
+
+myoepithelial cell : 근상피세포 : 수축작용 : exocrine gland의 secretary portion과 intercalated duct (duct의 시작점)를 둘러싸고 수축함
+
+- myoepithelial cell의 세포핵 어디??
+
+
+# secretary mode 
+
+merocrine : 샘부닞 exocytosis
+
+apocrine : cytoplasm의 일부도 함꼐 분비 
+젖샘에서 lipid 분비 
+
+protein , carpohydrate 는 그냥 exocytosis
+
+holocrine : cell이 통째로 빠져나감 
+
+코 옆에있는 피지 : cell 하나가 똑 떨어져 나감 
+
+
+# 분비 물질의 성질 
+
+mucous 점액 : 점성이 있는 물질 : 성분은 mucopolysaccaride 
+
+serous 장액 : waterous 수분이 많음 : enzyme(protein)이 있음 
+
+따라서 장액샘은 protein secreting cell의 특징을 가짐 
+
+
+mucoserous
+
+
+mucous : nucleus가 진하게 hetero ???
+
+
+serous : 단백질 분비 세포의 특징을 가짐  : RER이 많이 발달 : cytoplasm이 basophilic 
+
+nucleus가 하얗고 중앙에 나타남 
+
+mucoserous gland : 혼합샘 
+진하게 나타난 것 : serous gland
+밝게 나타난 것 : mucous gland 
+
+mucous acinus를 serous acinus가 둘러싸는 구조 : serous demilune 장액성반달 
+
+전형적인 protein secreting cell : nucleus가 eukromatic : chromatin이 풀려있음
+
+RER : basal cytoplasm에 가서 위치해있음 
+
+RER 표면에 polyribossome이 붙어있음 : (-) charge : basophilic 
+
+golgi : nucleus 위쪽에 존재 : 일반 HE stain상에서 염색이 안됨
+
+golgi hollow ???
+
+
+apical cytoplasm : secretory granule들 (단백질을 안에 가지고 있는 vesicle들 ) 
+apical cytoplasm은 protein을 가지고 있으니까 HE stain상에서 acidophilic하게 나타남 : 이유 알아야함 : 
+
+basal cytoplasm은 basophilic, apical cytoplasm은 acidophilic 욍외우기 
+
+
+mucus : nucleus가 heterochromatic 
+
+시험볼때 딱 여러분이 구별할 수 있는 뚜렷한 EM 사진이 나온다 방금 열심히 설명한 거 꼭 알아둬라 
+
+
+
+
+\section{Amorphous Ground Substance}
+
+
+\begin{enumerate}
+    \item proteoglycan 단백당 : 탄수화물이 주 
+    \begin{itemize}
+        \item 
+        이당류 사슬이 주 
+        
+        
+    \end{itemize}
+    \item glycoprotein : 당단백질 : 단백질이 주 
+    
+    
+\end{enumerate}
+이런 물질들은 HE염색시 basophilic하다 
+    
+
+\section{0413 결합조직}
+
+\subsection{암기법}
+
+\begin{enumerate}
+    \item  
+   탄력 섬유 (elastic fiber)  \\
+   노란 피부의 탄력 (elastic)을 위해\\
+    리조트에서 푸시아색 모자와\\ 
+블루-블랙  베르사체 드레스를 입고\\
+해(HE)를 피하는 (unstained) \\
+올케 (dark red brown)\\ 
+를 보고 빡친 사람이 \\
+에오 하면서 탁 쳐서 (aorta)\\
+귓방망이 (귓바퀴) \\
+epiglottis가 고장나 음식이 코로 들어갔다\\
+
+
+
+\begin{minipage}[t]{0.4\textwidth}
+노란 피부의 탄력 (elastic)을 위해\\
+    리조트에서 푸시아색 모자와\\ 
+블루-블랙  베르사체 드레스를 입고\\
+해를 피하는 \\
+올케 (dark red brown)\\ 
+를 보고 빡친 사람이 \\
+에오 하면서 탁 쳐서 (aorta)\\
+귓방망이 (귓바퀴) \\
+epiglottis가 고장나 음식이 코로 들어갔다\\
+\end{minipage}%
+\hfill
+\vrule
+\hfill
+\begin{minipage}[t]{0.4\textwidth}
+yellow fiber, elastic fiber\\
+resorcin-fuchcin\\
+Verhoeff : blue-black\\
+HE 피해서 unstained \\
+orcein : dark red brown \\
+\textcolor{white}{123} \\
+aorta \\
+auricle \\
+epiglottis
+\end{minipage}
+
+
+    \item distribution of \textbf{glycosaminoglycans} \\ 
+     피 콘 헤        베 라   헤삼사  \\  
+팔다리 달린 베라31통이 피곤해! 해삼사!  \\
+ 외치는 이미지 상상 \\
+혹은 해삼맛 베라  \\ 
+1 \textbf{피}부 dermatan sulfate  int. with 1 --> skin , tendon \\  
+2 \textbf{콘} chondroitin sulfate int. with 2 --> cartilage  \\ 
+3,4 \textbf{헤} heparan sulfate int. with 3, 4--> basal lamina, aorta, lung, liver \\ 
+
+
+\item Embryonic connective tissue(배자결합조직) \\
+매새깡 (mesenchyme) 먹던  \\
+엄브릿지가 (umbilical cord) \\
+무고한 (mucoid connective tissue)  \\ 
+와튼의 젤리를 뺏어먹었다.  (Wharton's jelly) \\ 
+    
+    
+    \item collagen fiber
+    
+    \begin{minipage}{0.4\textwidth}
+    반기문이 붉으락  \\
+푸르락하며 말로리를 \\
+강력 규탄하며  국제 정세 긴장 조성 \\ 
+핑크빛 헤가 뜬  \\
+그린 메종에 서서  \\
+가장 풍부한 음료인 백색 콜라를 마심 \\
+    \end{minipage}
+    \hfill
+    \vrule
+    \hfill 
+    \begin{minipage}{0.4\textwidth}
+    Van gieson : red \\
+    blue : Mallory \\
+    high tensile strength : \textbf{tendon}, \textbf{aponeurosis}, \textbf{ligament}
+    HE : pinkish \\
+    Masson : green \\
+    collagen : most abundant fiber in connective tissue , \textbf{white} fiber
+    \end{minipage}
+    
+    \item types of collagen \\
+    tba
+    
+    \item Marfan disease \\
+    \begin{minipage}{0.4\textwidth}
+    말 \\
+    탄 \\
+    피리부는 \\
+    펠프스 
+    \end{minipage}
+    \hfill\vrule\hfill
+    \begin{minipage}{0.4\textwidth}
+    Marfan disease \\
+    탄력 섬유 \\
+    fibrilin 
+    \end{minipage}
+    
+    \item  plasma cell  \\
+    
+    nucleus eccentric
+\item mast cell
+
+\begin{minipage}{0.4\textwidth}
+비만한 (mast cell) \\
+중심핵 \\
+비서가 그래놀라 먹으며 (secretory granule) \\ 
+파스 붙이고  (pas positive)  \\ 
+히스테리 부리면서  (histamine)\\ 
+해피  (heparin)  \\ 
+바스 중  (basophilic)\\  
+메크로  (메타크로마시아) 돌린다 \\ 
+\end{minipage}
+\hfill \vrule \hfill 
+\begin{minipage}{0.4\textwidth}
+mast cell \\
+nucleus at center \\
+secretory granule \\
+PAS positive \\
+Histamine \\
+Heparin \\
+Basophilic \\
+Metachromasia
+\end{minipage}
+
+
+\item special staining for lipids 
+
+\begin{minipage}{0.4\textwidth}
+
+\end{minipage}
+\hfill\vrule\hfill
+\end{enumerate}
+\section{Conclusion}
+
+
+In this experiment, a low-pressure \ce{Ne} gas was filled in a  glass tube with four electrodes: the cathode $K$, the grid-type control electrode $G_{1}$, the acceleration grid $G_{2}$ and the target electrode $A$. The accelerating voltage $U_2$ was increased from \SI{0}{\volt} to 
+
+
+\begin{thebibliography}{9}
+\bibitem{mag}
+
+2005 Book Magnetism
+
+\bibitem{man}
+
+\url{https://institut2a.physik.rwth-aachen.de/de/teaching/praktikum/Anleitungen/FK11-SQUID.pdf}
+
+\bibitem{derivation}
+
+\end{thebibliography}
+
+
+
+
+\end{document}
